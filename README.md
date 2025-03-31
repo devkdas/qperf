@@ -16,7 +16,7 @@ Options:
   -p                   port to listen on/connect to (default 18080)
   -s  address          listen as server on address
   -t time (s)          run for X seconds (default 10s)
-  -n num_cores         number of cores to use (default nproc)
+  -i num_instances     number of instances to start (default nproc)
   -h                   print this help
 ```
 

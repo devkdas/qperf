@@ -22,7 +22,7 @@ static void usage(const char *cmd)
             "  -p                   port to listen on/connect to (default 18080)\n"
             "  -s  address          listen as server on address\n"
             "  -t time (s)          run for X seconds (default 10s)\n"
-            "  -n num_cores         number of cores to use (default nproc)\n"
+            "  -i num_instances     number of instances to start (default nproc)\n"
             "  -h                   print this help\n"
             "\n",
            cmd);
@@ -53,7 +53,7 @@ int main(int argc, char** argv)
         num_cores = 1;
     }
 
-    while ((ch = getopt_long(argc, argv, "c:egl:p:s:t:n:h", long_options, NULL)) != -1) {
+    while ((ch = getopt_long(argc, argv, "c:egl:p:s:t:i:h", long_options, NULL)) != -1) {
         switch (ch) {
         case 0:
             if(strcmp(optarg, "reno") != 0 && strcmp(optarg, "cubic") != 0) {
@@ -78,7 +78,7 @@ int main(int argc, char** argv)
         case 'g':
             #ifdef __linux__
                 gso = true;
-                printf("using UDP GSO, requires kernel >= 4.18\n");
+                fprintf(stderr, "using UDP GSO, requires kernel >= 4.18\n");
             #else
                 fprintf(stderr, "UDP GSO only supported on linux\n");
                 exit(1);
@@ -104,9 +104,9 @@ int main(int argc, char** argv)
                 exit(1);
             }
             break;
-        case 'n':
+        case 'i':
             if(sscanf(optarg, "%u", &num_cores) != 1 || num_cores < 1) {
-                fprintf(stderr, "invalid argument passed to -n\n");
+                fprintf(stderr, "invalid argument passed to -i\n");
                 exit(1);
             }
             break;
